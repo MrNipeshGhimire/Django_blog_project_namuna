@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 
@@ -128,3 +128,8 @@ def login_method(request):
 
     return render(request,'auth/login_page.html')
 
+
+def logout_method(request):
+    logout(request)
+    return redirect('index')
+    
