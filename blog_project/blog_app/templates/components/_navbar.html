@@ -12,7 +12,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16 items-center">
       <!-- Logo -->
-      <div class="flex-shrink-0 text-2xl font-bold text-indigo-600">MyBlogs</div>
+      <a href="{% url "index" %}"><div class="flex-shrink-0 text-2xl font-bold text-indigo-600">MyBlogs</div></a>
 
       <!-- Desktop Menu -->
       <div class="hidden md:flex space-x-6 items-center">
@@ -21,7 +21,7 @@
         <a href="#" class="text-gray-700 hover:text-indigo-600 transition font-medium">About</a>
         <a href="#" class="text-gray-700 hover:text-indigo-600 transition font-medium">Contact</a>
 
-        <a href=""><button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition text-sm font-medium">
+        <a href="{% url "create" %}"><button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition text-sm font-medium">
         + Add Blog
         </button></a>
         {% if request.user.is_authenticated %}
