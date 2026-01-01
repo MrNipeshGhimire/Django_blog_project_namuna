@@ -21,6 +21,13 @@
 
 
 <body>
+  {% if messages %}
+{% for message in messages %}
+<Script>
+  window.alert("{{message}}")
+</script>
+{% endfor %}
+{% endif %}
 {% include "components/_navbar.html" %}
 
 <!-- Hero Section -->

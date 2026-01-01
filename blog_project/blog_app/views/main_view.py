@@ -32,6 +32,7 @@ def create_blog(request):
                 title=title,
                 category=category,
                 description=description,
+                image=image,
                 author = request.user
             )
             blog.save()
@@ -41,7 +42,4 @@ def create_blog(request):
         except Exception as e:
             print(f"Error occurs :{e}")
             return render(request,'main/create_blog.html',{'errors':"Failed to add blog"})
-
-
-
     return render(request,'main/create_blog.html')
