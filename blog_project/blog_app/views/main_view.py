@@ -1,12 +1,19 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from ..models import Blogs
 from django.contrib import messages
 
 
 def index_page(request):
-    return render(request,'main/index.html')
+    try:
+        blog = Blogs.objects.only('title','category','image','created_at')  # select title,category,image,created_at from Blog 
+        print(blog)
+        return render(request,'main/index.html',{'blog':blog})
+    
+    except Exception as e:
+        print(f"error: {e}")
 
+    return render(request,'main/index.html')
 
 def about_page(request):
     return render(request,'main/about_page.html')
@@ -43,3 +50,14 @@ def create_blog(request):
             print(f"Error occurs :{e}")
             return render(request,'main/create_blog.html',{'errors':"Failed to add blog"})
     return render(request,'main/create_blog.html')
+
+# for single blog display
+def single_method(request,id):
+    try:
+        blog = get_object_or_404(Blogs,id=id)   # select * from Blogs where id=id
+        # blog = Blogs.objects.get(id=id)
+        print(blog)
+        return render(request,'main/single_blog.html',{'blog':blog})
+    except Exception as e:
+        print("Error: ",e)
+    return render(request,'main/single_blog.html')
