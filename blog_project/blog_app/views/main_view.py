@@ -80,5 +80,38 @@ def delete_blog(request,pk):
 
 # edit 
 def edit_method(request,id):
+    error={}
     prev_blog = get_object_or_404(Blogs,id=id)
+
+    if prev_blog.author != request.user:
+        return redirect('single', prev_blog.id)
+    
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        category = request.POST.get('category')
+        image = request.FILES.get('image')
+        description = request.POST.get('description')
+
+        if not title:
+            error['title'] = "Title is required"
+
+        if not category:
+            error['category'] = "Category is required"
+        
+        if not description:
+            error['description'] = "Description is required"
+
+        if error:
+            return render(request,'main/edit_blog.html',{'prev_data':prev_blog,'error':error})
+        
+        # edit 
+        prev_blog.title = title
+        prev_blog.category = category
+        if image:
+            prev_blog.image = image
+        prev_blog.description = description
+        prev_blog.save()
+        messages.success(request,'Blog updated successfully')
+        return redirect('single',id=prev_blog.id)
+
     return render(request,'main/edit_blog.html',{'prev_blog':prev_blog})
