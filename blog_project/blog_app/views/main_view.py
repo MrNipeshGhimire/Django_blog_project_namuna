@@ -6,7 +6,7 @@ from django.contrib import messages
 
 def index_page(request):
     try:
-        blog = Blogs.objects.only('title','category','image','created_at')  # select title,category,image,created_at from Blog 
+        blog = Blogs.objects.only('title','category','image','created_at').order_by('-created_at')  # select title,category,image,created_at from Blog 
         print(blog)
         return render(request,'main/index.html',{'blog':blog})
     
@@ -63,6 +63,7 @@ def single_method(request,id):
     return render(request,'main/single_blog.html')
 
 # for deleting blog
+@login_required
 def delete_blog(request,pk):
     try:
         blog =  Blogs.objects.get(id=pk)
@@ -72,6 +73,12 @@ def delete_blog(request,pk):
             messages.success(request,'Blog deleted successfully')
             return redirect('index')
         else:
-            return render(request,'main/single_blog.html',{'error':"You are not authorized to delete this blog"})
+            return render(request,'main/single_blog.html',{'error':"You are not authorized to delete this blog",'blog':blog})
     except Exception as e:
         print(e)
+
+
+# edit 
+def edit_method(request,id):
+    prev_blog = get_object_or_404(Blogs,id=id)
+    return render(request,'main/edit_blog.html',{'prev_blog':prev_blog})

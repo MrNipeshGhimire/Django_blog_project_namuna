@@ -34,20 +34,24 @@
     <p><strong>Posted by </strong>{{blog.author}} </p>
   </div>
   <!-- Action Buttons -->
+   {% if blog.author == request.user %}
   <div class="flex space-x-4">
-    <button
+    <a href="{% url "edit_blog" blog.id %}"><button
       type="button"
       class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition"
     >
       Edit
-    </button>
-    <button
+    </button></a>
+
+    <a href="{% url "delete_blog" blog.id %}"><button onclick="return confirm('Are you sure want to delete this blog? ')"
       type="button"
       class="px-6 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition"
     >
       Delete
-    </button>
+    </button></a>
   </div>
+  {% endif %}
+  <p class="text-red-500"> {{error}}</p>
 </section>
 {% include "components/_footer.html" %}
 </body>
