@@ -102,7 +102,7 @@ def edit_method(request,id):
             error['description'] = "Description is required"
 
         if error:
-            return render(request,'main/edit_blog.html',{'prev_data':prev_blog,'error':error})
+            return render(request,'main/edit_blog.html',{'prev_blog':prev_blog,'error':error})
         
         # edit 
         prev_blog.title = title

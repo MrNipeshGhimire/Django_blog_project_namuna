@@ -25,13 +25,14 @@
     <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Edit Blog</h2>
 
     <!-- Blog Form -->
-    <form action="{% url "edit_blog" prev_blog.id %}" method="POST" enctype="multipart/form-data" class="space-y-5">
+    <form action="{% url 'edit_blog' prev_blog.id %}" method="POST" enctype="multipart/form-data" class="space-y-5">
       {% csrf_token %}
       <!-- Title -->
       <div>
         <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
         <input type="text" id="title" name="title" value="{{prev_blog.title}}"
           class="w-full border border-gray-300 px-4 py-2 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+          <p class="text-red-500">{{error.title}}</p>
       </div>
 
       <!-- Category -->
@@ -45,6 +46,8 @@
           <option value="travel">Travel</option>
           <option value="coding">Coding</option>
         </select>
+                  <p class="text-red-500">{{error.category}}</p>
+
       </div>
 
       <!-- Image Upload -->
@@ -92,6 +95,8 @@
         <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
         <textarea id="description" name="description" rows="5"
           class="w-full border border-gray-300 px-4 py-2 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none">{{prev_blog.description}} </textarea>
+                    <p class="text-red-500">{{error.description}}</p>
+
       </div>
 
       <!-- Submit Button -->

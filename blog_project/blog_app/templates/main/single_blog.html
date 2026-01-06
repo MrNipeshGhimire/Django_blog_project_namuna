@@ -4,8 +4,15 @@
     {% load static %}
 <link  href ="{% static 'src/styles.css' %}" rel="stylesheet" />
 </head>
-
+{% if messages %}
+{% for message in messages %}
+<script>
+window.alert("{{message}}")
+</script>
+{% endfor %}
+{% endif %}
 <body>
+
  {% include "components/_navbar.html" %}
 <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-white rounded-lg shadow-md mt-10">
   <!-- Blog Image -->
