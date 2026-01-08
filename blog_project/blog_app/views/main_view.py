@@ -7,8 +7,10 @@ from django.contrib import messages
 def index_page(request):
     try:
         blog = Blogs.objects.only('title','category','image','created_at').order_by('-created_at')  # select title,category,image,created_at from Blog 
+        # for feature blogs
+        feature = Blogs.objects.filter(is_featured=1) 
         print(blog)
-        return render(request,'main/index.html',{'blog':blog})
+        return render(request,'main/index.html',{'blog':blog,'feature':feature})
     
     except Exception as e:
         print(f"error: {e}")
@@ -26,6 +28,9 @@ def create_blog(request):
         category = request.POST.get('category')
         image = request.FILES.get('image')
         description = request.POST.get('description')
+        is_featured = request.POST.get('is_featured') =='on'
+        print(is_featured)
+        
 
         if not title:
             errors['title'] = "Title is Required"
@@ -40,6 +45,7 @@ def create_blog(request):
                 category=category,
                 description=description,
                 image=image,
+                is_featured=is_featured,
                 author = request.user
             )
             blog.save()
@@ -83,7 +89,7 @@ def edit_method(request,id):
     error={}
     prev_blog = get_object_or_404(Blogs,id=id)
 
-    if prev_blog.author != request.user:
+    if prev_blog.author != request.user or not request.user.is_superuser:
         return redirect('single', prev_blog.id)
     
     if request.method == 'POST':
